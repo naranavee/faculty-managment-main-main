@@ -10,6 +10,7 @@ import AdminSignup from './components/admin/AdminSignup';
 import AdminHome from './components/admin/AdminHome';
 import FacultyHome from './components/faculty/FacultyHome';
 
+
 function App() {
   return (
     <Router>
@@ -22,6 +23,7 @@ function App() {
           <Route path="/faculty/login" element={<FacultyLogin />} />
           <Route path="/admin/home" element={<AdminHome />} />
           <Route path="/faculty/home" element={<FacultyHome/>} />
+         
         </Routes>
       </div>
     </Router>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ function Profile() {
 
   const [profileData, setProfileData] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -54,6 +56,21 @@ function Profile() {
     } catch (err) {
       console.error(err.response.data);
     }
+  };
+
+  const onDeleteProfile = async () => {
+    try {
+      await axios.delete('http://localhost:5000/api/faculty/profile');
+      alert('Profile deleted successfully');
+      setProfileData(null);
+      setShowProfile(false);
+    } catch (err) {
+      console.error(err.response.data);
+    }
+  };
+
+  const onEditProfile = () => {
+    navigate('/faculty/edit-profile');
   };
 
   return (
@@ -125,6 +142,8 @@ function Profile() {
           <p><strong>Qualification:</strong> {profileData.qualification}</p>
           <p><strong>Salary:</strong> {profileData.salary}</p>
           <p><strong>Married:</strong> {profileData.married ? 'Yes' : 'No'}</p>
+          <button style={styles.editButton} onClick={onEditProfile}>Edit Profile</button>
+          <button style={styles.deleteButton} onClick={onDeleteProfile}>Delete Profile</button>
         </div>
       )}
     </div>
@@ -149,12 +168,30 @@ const styles = {
     borderRadius: '5px',
     cursor: 'pointer',
   },
+  editButton: {
+    marginTop: '10px',
+    padding: '10px 20px',
+    backgroundColor: '#28a745',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  },
+  deleteButton: {
+    marginTop: '10px',
+    padding: '10px 20px',
+    backgroundColor: '#dc3545',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  },
   profileDetails: {
     marginTop: '20px',
     padding: '20px',
     backgroundColor: '#f7f7f7',
     borderRadius: '5px',
-  }
+  },
 };
 
 export default Profile;
