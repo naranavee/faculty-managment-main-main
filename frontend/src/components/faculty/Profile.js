@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 function Profile() {
   const [formData, setFormData] = useState({
@@ -19,7 +18,25 @@ function Profile() {
 
   const [profileData, setProfileData] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
-  const navigate = useNavigate();
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  useEffect(() => {
+    if (isEditMode && profileData) {
+      setFormData({
+        name: profileData.name,
+        mobileNumber: profileData.mobileNumber,
+        gender: profileData.gender,
+        dob: profileData.dob,
+        doj: profileData.doj,
+        address: profileData.address,
+        designation: profileData.designation,
+        department: profileData.department,
+        qualification: profileData.qualification,
+        salary: profileData.salary,
+        married: profileData.married,
+      });
+    }
+  }, [isEditMode, profileData]);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -40,9 +57,33 @@ function Profile() {
     }
 
     try {
-      const res = await axios.post('http://localhost:5000/api/faculty/profile', formData);
-      console.log(res.data);
-      alert('Profile registered successfully!');
+      if (isEditMode) {
+        const res = await axios.put('http://localhost:5000/api/faculty/profile', formData);
+        console.log(res.data);
+        alert('Profile updated successfully!');
+      } else {
+        const res = await axios.post('http://localhost:5000/api/faculty/profile', formData);
+        console.log(res.data);
+        alert('Profile registered successfully!');
+      }
+
+      // Reset form and mode after submission
+      setFormData({
+        name: '',
+        mobileNumber: '',
+        gender: '',
+        dob: '',
+        doj: '',
+        address: '',
+        designation: '',
+        department: '',
+        qualification: '',
+        salary: '',
+        married: false,
+      });
+      setIsEditMode(false);
+      setShowProfile(false);
+
     } catch (err) {
       console.error(err.response.data);
     }
@@ -50,7 +91,7 @@ function Profile() {
 
   const onViewProfile = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/faculty/profile'); // Adjust this endpoint based on your backend
+      const res = await axios.get('http://localhost:5000/api/faculty/profile');
       setProfileData(res.data);
       setShowProfile(true);
     } catch (err) {
@@ -64,18 +105,20 @@ function Profile() {
       alert('Profile deleted successfully');
       setProfileData(null);
       setShowProfile(false);
+      setIsEditMode(false);
     } catch (err) {
       console.error(err.response.data);
     }
   };
 
   const onEditProfile = () => {
-    navigate('/faculty/edit-profile');
+    setIsEditMode(true);
+    setShowProfile(false);
   };
 
   return (
     <div style={styles.card}>
-      <h2>Faculty Profile</h2>
+      <h2>{isEditMode ? 'Edit Faculty Profile' : 'Faculty Profile'}</h2>
       <form onSubmit={onSubmit}>
         <label>Name:</label>
         <input type="text" name="name" value={formData.name} onChange={onChange} required />
@@ -118,33 +161,41 @@ function Profile() {
           <option value="No">No</option>
         </select>
 
-        <button type="submit">Register</button>
-        <button type="button" onClick={() => setFormData({
-          name: '', mobileNumber: '', gender: '', dob: '', doj: '',
-          address: '', designation: '', department: '', qualification: '',
-          salary: '', married: false
-        })}>Cancel</button>
+        <button type="submit">{isEditMode ? 'Update Profile' : 'Register'}</button>
+        <button type="button" onClick={() => {
+          setFormData({
+            name: '', mobileNumber: '', gender: '', dob: '', doj: '',
+            address: '', designation: '', department: '', qualification: '',
+            salary: '', married: false
+          });
+          setIsEditMode(false);
+          setShowProfile(false);
+        }}>Cancel</button>
       </form>
 
-      <button style={styles.viewProfileButton} onClick={onViewProfile}>View Profile</button>
+      {!isEditMode && (
+        <>
+          <button style={styles.viewProfileButton} onClick={onViewProfile}>View Profile</button>
 
-      {showProfile && profileData && (
-        <div style={styles.profileDetails}>
-          <h3>Profile Details</h3>
-          <p><strong>Name:</strong> {profileData.name}</p>
-          <p><strong>Mobile Number:</strong> {profileData.mobileNumber}</p>
-          <p><strong>Gender:</strong> {profileData.gender}</p>
-          <p><strong>Date of Birth:</strong> {profileData.dob}</p>
-          <p><strong>Date of Joining:</strong> {profileData.doj}</p>
-          <p><strong>Address:</strong> {profileData.address}</p>
-          <p><strong>Designation:</strong> {profileData.designation}</p>
-          <p><strong>Department:</strong> {profileData.department}</p>
-          <p><strong>Qualification:</strong> {profileData.qualification}</p>
-          <p><strong>Salary:</strong> {profileData.salary}</p>
-          <p><strong>Married:</strong> {profileData.married ? 'Yes' : 'No'}</p>
-          <button style={styles.editButton} onClick={onEditProfile}>Edit Profile</button>
-          <button style={styles.deleteButton} onClick={onDeleteProfile}>Delete Profile</button>
-        </div>
+          {showProfile && profileData && (
+            <div style={styles.profileDetails}>
+              <h3>Profile Details</h3>
+              <p><strong>Name:</strong> {profileData.name}</p>
+              <p><strong>Mobile Number:</strong> {profileData.mobileNumber}</p>
+              <p><strong>Gender:</strong> {profileData.gender}</p>
+              <p><strong>Date of Birth:</strong> {profileData.dob}</p>
+              <p><strong>Date of Joining:</strong> {profileData.doj}</p>
+              <p><strong>Address:</strong> {profileData.address}</p>
+              <p><strong>Designation:</strong> {profileData.designation}</p>
+              <p><strong>Department:</strong> {profileData.department}</p>
+              <p><strong>Qualification:</strong> {profileData.qualification}</p>
+              <p><strong>Salary:</strong> {profileData.salary}</p>
+              <p><strong>Married:</strong> {profileData.married ? 'Yes' : 'No'}</p>
+              <button style={styles.editButton} onClick={onEditProfile}>Edit Profile</button>
+              <button style={styles.deleteButton} onClick={onDeleteProfile}>Delete Profile</button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
@@ -188,8 +239,8 @@ const styles = {
   },
   profileDetails: {
     marginTop: '20px',
-    padding: '20px',
-    backgroundColor: '#f7f7f7',
+    backgroundColor: '#f8f9fa',
+    padding: '10px',
     borderRadius: '5px',
   },
 };
