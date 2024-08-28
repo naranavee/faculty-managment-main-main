@@ -9,7 +9,7 @@ import MainPage from './components/MainPage';
 import AdminSignup from './components/admin/AdminSignup';
 import AdminHome from './components/admin/AdminHome';
 import FacultyHome from './components/faculty/FacultyHome';
-
+import './App.css'
 
 function App() {
   return (
