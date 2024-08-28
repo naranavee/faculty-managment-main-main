@@ -1,26 +1,31 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Update import
+import { useNavigate } from 'react-router-dom';
 
 const MainPage = () => {
-  const navigate = useNavigate(); // Update useHistory to useNavigate
+  const navigate = useNavigate();
 
   const navigateToAdminLogin = () => {
-    navigate('/admin/login'); // Update history.push to navigate
+    navigate('/admin/login');
   };
 
   const navigateToFacultyLogin = () => {
-    navigate('/faculty/login'); // Update history.push to navigate
+    navigate('/faculty/login');
   };
 
   return (
-    <div style={styles.container}>
-      <h1>Welcome to the Management System</h1>
-      <button style={styles.button} onClick={navigateToAdminLogin}>
-        Admin
-      </button>
-      <button style={styles.button} onClick={navigateToFacultyLogin}>
-        Faculty
-      </button>
+    <div>
+      <header style={styles.header}>
+        <button style={styles.headerButton} onClick={navigateToAdminLogin}>
+          Admin
+        </button>
+        <button style={styles.headerButton} onClick={navigateToFacultyLogin}>
+          Faculty
+        </button>
+      </header>
+
+      <div style={styles.container}>
+        <h1 style={styles.heading}>Welcome to the Management System</h1>
+      </div>
     </div>
   );
 };
@@ -32,12 +37,35 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
+    backgroundColor: '#f4f4f4',
+    fontFamily: 'Arial, sans-serif',
   },
-  button: {
-    margin: '10px',
+  heading: {
+    fontSize: '2.5rem',
+    marginBottom: '30px',
+    color: '#333',
+  },
+  header: {
+    backgroundColor: '#333',
+    color: 'white',
+    padding: '15px',
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  headerButton: {
     padding: '10px 20px',
-    fontSize: '16px',
+    fontSize: '1rem',
     cursor: 'pointer',
+    border: 'none',
+    borderRadius: '5px',
+    backgroundColor: '#007bff',
+    color: 'white',
+    marginLeft: '10px',
+    transition: 'background-color 0.3s',
+
+    '&:hover': {
+      backgroundColor: '#0056b3',
+    },
   },
 };
 

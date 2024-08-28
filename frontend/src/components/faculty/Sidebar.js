@@ -1,11 +1,12 @@
 import React from 'react';
 
-function Sidebar({ onProfileClick, onWorkshopClick }) {
+function Sidebar({ onProfileClick, onWorkshopClick,onApplyForLeaveClick }) {
   return (
     <div style={styles.sidebar}>
       <ul>
         <li onClick={onProfileClick}>Profile</li>
         <li onClick={onWorkshopClick}>Workshop</li>
+        <li onClick={onApplyForLeaveClick}>Apply for Leave</li>
         {/* Add more sidebar links here if needed */}
       </ul>
     </div>
