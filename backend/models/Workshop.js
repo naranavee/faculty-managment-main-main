@@ -5,7 +5,7 @@ const WorkshopSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  workshopName: {
+  nameOfWorkshop: {
     type: String,
     required: true
   },
