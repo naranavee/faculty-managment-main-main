@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function ViewWorkshop() {
-  const [workshopData, setWorkshopData] = useState(null);
+  const [workshops, setWorkshops] = useState([]);
   const [editMode, setEditMode] = useState(false);
+  const [currentWorkshop, setCurrentWorkshop] = useState(null);
   const [formData, setFormData] = useState({
     facultyMail: '',
     nameOfWorkshop: '',
@@ -14,16 +15,19 @@ function ViewWorkshop() {
   });
 
   useEffect(() => {
-    const fetchWorkshop = async () => {
+    const fetchWorkshops = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/faculty/workshop'); // Adjust the API endpoint as needed
-        setWorkshopData(res.data);
-        setFormData(res.data); // Initialize form data with fetched workshop data
+        const res = await axios.get('http://localhost:5000/api/faculty/workshops'); // Fetch all workshops
+        setWorkshops(res.data);
+        if (res.data.length > 0) {
+          setCurrentWorkshop(res.data[0]);
+          setFormData(res.data[0]); // Initialize form data with the first workshop data
+        }
       } catch (err) {
         console.error(err.response.data);
       }
     };
-    fetchWorkshop();
+    fetchWorkshops();
   }, []);
 
   const onChange = (e) => {
@@ -37,8 +41,9 @@ function ViewWorkshop() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put('http://localhost:5000/api/faculty/workshop', formData);
-      setWorkshopData(res.data);
+      const res = await axios.put(`http://localhost:5000/api/faculty/workshops/${currentWorkshop._id}`, formData);
+      setWorkshops(workshops.map(workshop => workshop._id === res.data._id ? res.data : workshop));
+      setCurrentWorkshop(res.data);
       setEditMode(false);
       alert('Workshop updated successfully!');
     } catch (err) {
@@ -46,11 +51,12 @@ function ViewWorkshop() {
     }
   };
 
-  const onDelete = async () => {
+  const onDelete = async (id) => {
     try {
-      await axios.delete('http://localhost:5000/api/faculty/workshop');
-      setWorkshopData(null);
+      await axios.delete(`http://localhost:5000/api/faculty/workshops/${id}`);
+      setWorkshops(workshops.filter(workshop => workshop._id !== id));
       setEditMode(false);
+      setCurrentWorkshop(null);
       alert('Workshop deleted successfully!');
     } catch (err) {
       console.error(err.response.data);
@@ -150,28 +156,32 @@ function ViewWorkshop() {
         </form>
       ) : (
         <div>
-          {workshopData ? (
+          {workshops.length > 0 ? (
             <div>
-              <p><strong>Faculty Mail:</strong> {workshopData.facultyMail}</p>
-              <p><strong>Name of the Workshop:</strong> {workshopData.nameOfWorkshop}</p>
-              <p><strong>Venue:</strong> {workshopData.venue}</p>
-              <p><strong>Started:</strong> {workshopData.started}</p>
-              <p><strong>Ended:</strong> {workshopData.ended}</p>
-              <p><strong>Number of Days:</strong> {workshopData.numberOfDays}</p>
-              <div className="flex justify-end mt-4">
-                <button
-                  onClick={() => setEditMode(true)}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={onDelete}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  Delete
-                </button>
-              </div>
+              {workshops.map(workshop => (
+                <div key={workshop._id} className="mb-4">
+                  <p><strong>Faculty Mail:</strong> {workshop.facultyMail}</p>
+                  <p><strong>Name of the Workshop:</strong> {workshop.nameOfWorkshop}</p>
+                  <p><strong>Venue:</strong> {workshop.venue}</p>
+                  <p><strong>Started:</strong> {workshop.started}</p>
+                  <p><strong>Ended:</strong> {workshop.ended}</p>
+                  <p><strong>Number of Days:</strong> {workshop.numberOfDays}</p>
+                  <div className="flex justify-end mt-4">
+                    <button
+                      onClick={() => { setCurrentWorkshop(workshop); setEditMode(true); }}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => onDelete(workshop._id)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           ) : (
             <p>No workshop data available.</p>

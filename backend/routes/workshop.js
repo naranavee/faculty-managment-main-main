@@ -5,7 +5,7 @@ const Workshop = require('../models/Workshop');
 // @route   POST api/workshop
 // @desc    Register a workshop
 // @access  Public
-router.post('/workshop', async (req, res) => {
+router.post('/workshops', async (req, res) => {
   const {
     facultyMail, nameOfWorkshop, venue, started, ended, numberOfDays
   } = req.body;
@@ -35,12 +35,28 @@ router.post('/workshop', async (req, res) => {
   }
 });
 
-// @route   GET api/workshop
-// @desc    Fetch the workshop details
+// @route   GET api/workshops
+// @desc    Fetch all workshops
 // @access  Public
-router.get('/workshop', async (req, res) => {
+router.get('/workshops', async (req, res) => {
   try {
-    const workshop = await Workshop.findOne(); // You might want to adjust this query if you want to support multiple workshops
+    const workshops = await Workshop.find();
+    res.json(workshops);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+
+  
+
+// @route   GET api/workshop/:id
+// @desc    Fetch a specific workshop by ID
+// @access  Public
+router.get('/workshops/:id', async (req, res) => {
+  try {
+    const workshop = await Workshop.findById(req.params.id);
     if (!workshop) {
       return res.status(404).json({ msg: 'Workshop not found' });
     }
@@ -51,21 +67,23 @@ router.get('/workshop', async (req, res) => {
   }
 });
 
-// @route   PUT api/workshop
-// @desc    Edit the workshop details
+// @route   PUT api/workshop/:id
+// @desc    Edit a specific workshop by ID
 // @access  Public
-router.put('/workshop', async (req, res) => {
+router.put('/workshops/:id', async (req, res) => {
   const {
     facultyMail, nameOfWorkshop, venue, started, ended, numberOfDays
   } = req.body;
 
   try {
-    const workshop = await Workshop.findOne({ facultyMail, nameOfWorkshop });
+    const workshop = await Workshop.findById(req.params.id);
     if (!workshop) {
       return res.status(404).json({ msg: 'Workshop not found' });
     }
 
     // Update workshop fields
+    workshop.facultyMail = facultyMail || workshop.facultyMail;
+    workshop.nameOfWorkshop = nameOfWorkshop || workshop.nameOfWorkshop;
     workshop.venue = venue || workshop.venue;
     workshop.started = started || workshop.started;
     workshop.ended = ended || workshop.ended;
@@ -79,17 +97,22 @@ router.put('/workshop', async (req, res) => {
   }
 });
 
-// @route   DELETE api/workshop
-// @desc    Delete a workshop
+// @route   DELETE api/workshop/:id
+// @desc    Delete a specific workshop by ID
 // @access  Public
-router.delete('/workshop', async (req, res) => {
+router.delete('/workshops/:id', async (req, res) => {
     try {
-      await Workshop.deleteMany(); // Remove all workshops
-      res.json({ msg: 'All workshops deleted' });
+      const result = await Workshop.deleteOne({ _id: req.params.id });
+      if (result.deletedCount === 0) {
+        return res.status(404).json({ msg: 'Workshop not found' });
+      }
+  
+      res.json({ msg: 'Workshop deleted' });
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error');
     }
   });
+  
 
 module.exports = router;
