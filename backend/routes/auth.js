@@ -240,5 +240,70 @@ router.get('/faculty', async (req, res) => {
   }
 });
 
+// @route   PUT api/auth/faculty/:id
+// @desc    Update Faculty User
+// @access  Public
+router.put(
+  '/faculty/:id',
+  [
+    check('name', 'Name is required').not().isEmpty(),
+    check('email', 'Please include a valid email').isEmail(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name, email } = req.body;
+
+    try {
+      let faculty = await Faculty.findById(req.params.id);
+
+      if (!faculty) {
+        return res.status(404).json({ msg: 'Faculty member not found' });
+      }
+
+      // Update fields
+      faculty.name = name;
+      faculty.email = email;
+
+      await faculty.save();
+      res.json(faculty);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
+
+
+// @route   DELETE api/auth/faculty/:id
+// @desc    Delete Faculty User
+// @access  Public
+// @route   DELETE api/auth/faculty/:id
+// @desc    Delete a faculty user by ID
+// @access  Public
+// @route   DELETE api/auth/faculty/:id
+// @desc    Delete a faculty user by ID
+// @access  Public
+router.delete('/faculty/:id', async (req, res) => {
+  try {
+    const faculty = await Faculty.findById(req.params.id);
+
+    if (!faculty) {
+      return res.status(404).json({ msg: 'Faculty not found' });
+    }
+
+    await Faculty.findByIdAndDelete(req.params.id);
+
+    res.json({ msg: 'Faculty removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+
 
 module.exports = router;
