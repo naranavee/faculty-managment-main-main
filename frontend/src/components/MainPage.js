@@ -62,7 +62,7 @@ const Footer = () => {
       <div className="flex items-center">
         <h3 className="text-lg md:text-xl font-semibold mr-4 text-yellow-400">Get in Touch</h3> 
         <div className="flex space-x-4">
-          <a href="https://www.instagram.com/your_profile" className="text-gray-300 hover:text-yellow-400 text-xl transition duration-300"> 
+          <a href="https://www.instagram.com/ascendioninc/" className="text-gray-300 hover:text-yellow-400 text-xl transition duration-300"> 
             <FaInstagram />
           </a>
           <a href="https://www.linkedin.com/in/your_profile" className="text-gray-300 hover:text-yellow-400 text-xl transition duration-300">

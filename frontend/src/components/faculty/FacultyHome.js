@@ -13,7 +13,7 @@ function FacultyHome() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    navigate('/faculty/login');
+    navigate('/');
   };
 
   const handleProfileClick = () => {
