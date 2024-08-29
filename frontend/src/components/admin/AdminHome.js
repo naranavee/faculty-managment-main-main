@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminSidebar from './AdminSidebar';
 import ViewProfiles from './ViewProfiles';
+import ViewUsers from './ViewUsers'; // Import the ViewUsers component
 import ViewWorkshops from './ViewWorkshops';
 import ViewLeaves from './ViewLeaves';
 
 function AdminHome() {
   const navigate = useNavigate();
   const [showViewProfiles, setShowViewProfiles] = useState(false);
+  const [showViewUsers, setShowViewUsers] = useState(false); // State for showing ViewUsers
   const [showViewWorkshops, setShowViewWorkshops] = useState(false);
   const [showViewLeaves, setShowViewLeaves] = useState(false);
 
@@ -18,6 +20,14 @@ function AdminHome() {
 
   const handleViewProfilesClick = () => {
     setShowViewProfiles(true);
+    setShowViewUsers(false);
+    setShowViewWorkshops(false);
+    setShowViewLeaves(false);
+  };
+
+  const handleViewUsersClick = () => {
+    setShowViewUsers(true);
+    setShowViewProfiles(false);
     setShowViewWorkshops(false);
     setShowViewLeaves(false);
   };
@@ -25,12 +35,14 @@ function AdminHome() {
   const handleViewWorkshopsClick = () => {
     setShowViewWorkshops(true);
     setShowViewProfiles(false);
+    setShowViewUsers(false);
     setShowViewLeaves(false);
   };
 
   const handleViewLeavesClick = () => {
     setShowViewLeaves(true);
     setShowViewProfiles(false);
+    setShowViewUsers(false);
     setShowViewWorkshops(false);
   };
 
@@ -38,6 +50,7 @@ function AdminHome() {
     <div className="flex h-screen">
       <AdminSidebar
         onViewProfilesClick={handleViewProfilesClick}
+        onViewUsersClick={handleViewUsersClick} // Pass the handleViewUsersClick function
         onViewWorkshopsClick={handleViewWorkshopsClick}
         onViewLeavesClick={handleViewLeavesClick}
       />
@@ -51,6 +64,7 @@ function AdminHome() {
         </button>
 
         {showViewProfiles && <ViewProfiles />}
+        {showViewUsers && <ViewUsers />} {/* Render the ViewUsers component */}
         {showViewWorkshops && <ViewWorkshops />}
         {showViewLeaves && <ViewLeaves />}
       </div>

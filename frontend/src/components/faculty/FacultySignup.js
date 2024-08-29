@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
 function FacultySignup() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const navigate = useNavigate();
@@ -23,35 +22,62 @@ function FacultySignup() {
   };
 
   return (
-    <div className="container">
-      <form className="form" onSubmit={onSubmit}>
-        <h2>Faculty Signup</h2>
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={onChange}
-          placeholder="Name"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={onChange}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={onChange}
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Signup</button>
-      </form>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-red-400 to-blue-500">
+      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
+        <h2 className="text-2xl font-bold mb-4 text-center">Faculty Signup</h2>
+        <form className="form" onSubmit={onSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+              Name
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="name"
+              type="text"
+              name="name"
+              value={name}
+              onChange={onChange}
+              placeholder="Name"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+              Email
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="email"
+              type="email"
+              name="email"
+              value={email}
+              onChange={onChange}
+              placeholder="Email"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+              Password
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="password"
+              type="password"
+              name="password"
+              value={password}
+              onChange={onChange}
+              placeholder="Password"
+              required
+            />
+          </div>
+          <div className="flex items-center justify-center">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+              Signup
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

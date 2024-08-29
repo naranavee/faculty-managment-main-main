@@ -227,4 +227,18 @@ router.post(
   }
 );
 
+// @route   GET api/auth/faculty
+// @desc    Get all Faculty
+// @access  Public
+router.get('/faculty', async (req, res) => {
+  try {
+    const faculties = await Faculty.find().select('-password'); // Exclude password field
+    res.json(faculties);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+
 module.exports = router;
