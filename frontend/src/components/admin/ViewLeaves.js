@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function ViewLeaves() {
-  const [leaveData, setLeaveData] = useState(null);
+  const [leaves, setLeaves] = useState([]);
   const [editMode, setEditMode] = useState(false);
+  const [currentLeave, setCurrentLeave] = useState(null);
   const [formData, setFormData] = useState({
     leaveType: '',
     startDate: '',
@@ -12,16 +13,19 @@ function ViewLeaves() {
   });
 
   useEffect(() => {
-    const fetchLeave = async () => {
+    const fetchLeaves = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/faculty/leave'); // Adjust the API endpoint as needed
-        setLeaveData(res.data);
-        setFormData(res.data); // Initialize form data with fetched leave data
+        const res = await axios.get('http://localhost:5000/api/faculty/leave');
+        setLeaves(res.data);
+        if (res.data.length > 0) {
+          setCurrentLeave(res.data[0]);
+          setFormData(res.data[0]); // Initialize form data with the first leave data
+        }
       } catch (err) {
         console.error(err.response.data);
       }
     };
-    fetchLeave();
+    fetchLeaves();
   }, []);
 
   const onChange = (e) => {
@@ -35,24 +39,39 @@ function ViewLeaves() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put('http://localhost:5000/api/faculty/leave', formData);
-      setLeaveData(res.data);
+      if (currentLeave) {
+        const res = await axios.put(`http://localhost:5000/api/faculty/leave/${currentLeave._id}`, formData);
+        setLeaves(leaves.map(leave => leave._id === res.data._id ? res.data : leave));
+        setCurrentLeave(res.data);
+        alert('Leave details updated successfully!');
+      }
       setEditMode(false);
-      alert('Leave details updated successfully!');
     } catch (err) {
       console.error(err.response.data);
     }
   };
 
-  const onDelete = async () => {
+  const onDelete = async (id) => {
     try {
-      await axios.delete('http://localhost:5000/api/faculty/leave');
-      setLeaveData(null);
+      await axios.delete(`http://localhost:5000/api/faculty/leave/${id}`);
+      setLeaves(leaves.filter(leave => leave._id !== id));
       setEditMode(false);
+      setCurrentLeave(null);
       alert('Leave details deleted successfully!');
     } catch (err) {
       console.error(err.response.data);
     }
+  };
+
+  const handleEditClick = (leave) => {
+    setCurrentLeave(leave);
+    setFormData({
+      leaveType: leave.leaveType,
+      startDate: leave.startDate,
+      endDate: leave.endDate,
+      description: leave.description,
+    });
+    setEditMode(true);
   };
 
   return (
@@ -64,16 +83,16 @@ function ViewLeaves() {
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="leaveType">Leave Type:</label>
             <select 
-            name="leaveType" 
-            value={formData.leaveType} 
-            onChange={onChange} 
-            required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          >
-            <option value="">Select Leave Type</option>
-            <option value="Personal">Personal</option>
-            <option value="Sick">Sick</option>
-          </select>
+              name="leaveType" 
+              value={formData.leaveType} 
+              onChange={onChange} 
+              required
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="">Select Leave Type</option>
+              <option value="Personal">Personal</option>
+              <option value="Sick">Sick</option>
+            </select>
           </div>
 
           <div className="mb-4">
@@ -126,26 +145,30 @@ function ViewLeaves() {
         </form>
       ) : (
         <div>
-          {leaveData ? (
+          {leaves.length > 0 ? (
             <div>
-              <p><strong>Leave Type:</strong> {leaveData.leaveType}</p>
-              <p><strong>Start Date:</strong> {new Date(leaveData.startDate).toLocaleDateString()}</p>
-              <p><strong>End Date:</strong> {new Date(leaveData.endDate).toLocaleDateString()}</p>
-              <p><strong>Description:</strong> {leaveData.description}</p>
-              <div className="flex justify-end mt-4">
-                <button
-                  onClick={() => setEditMode(true)}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={onDelete}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  Delete
-                </button>
-              </div>
+              {leaves.map(leave => (
+                <div key={leave._id} className="mb-4 p-4 bg-gray-100 rounded-lg">
+                  <p><strong>Leave Type:</strong> {leave.leaveType}</p>
+                  <p><strong>Start Date:</strong> {new Date(leave.startDate).toLocaleDateString()}</p>
+                  <p><strong>End Date:</strong> {new Date(leave.endDate).toLocaleDateString()}</p>
+                  <p><strong>Description:</strong> {leave.description}</p>
+                  <div className="flex justify-end mt-4">
+                    <button
+                      onClick={() => handleEditClick(leave)}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => onDelete(leave._id)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           ) : (
             <p>No leave data available.</p>

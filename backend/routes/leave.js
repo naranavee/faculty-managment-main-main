@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Leave = require('../models/Leave'); // Adjusted to use 'Leave' instead of 'LeaveRequest'
+const Leave = require('../models/Leave'); // Ensure this model is correctly set up
 
 // @route   POST api/faculty/leave
 // @desc    Apply for leave
@@ -9,11 +9,14 @@ router.post('/leave', async (req, res) => {
   const { leaveType, startDate, endDate, description } = req.body;
 
   try {
-    // Check if a leave request already exists
-    let leave = await Leave.findOne();
+    // Check if a leave request already exists within the specified date range
+    let leave = await Leave.findOne({
+      startDate: { $lte: endDate },
+      endDate: { $gte: startDate }
+    });
 
     if (leave) {
-      return res.status(400).json({ msg: 'Leave already exists' });
+      return res.status(400).json({ msg: 'A leave request already exists for the specified date range' });
     }
 
     const newLeave = new Leave({
@@ -36,9 +39,9 @@ router.post('/leave', async (req, res) => {
 // @access  Public
 router.get('/leave', async (req, res) => {
   try {
-    const leave = await Leave.findOne();
-    if (!leave) {
-      return res.status(404).json({ msg: 'Leave not found' });
+    const leave = await Leave.find();
+    if (!leave || leave.length === 0) {
+      return res.status(404).json({ msg: 'No leave requests found' });
     }
     res.json(leave);
   } catch (err) {
@@ -47,14 +50,14 @@ router.get('/leave', async (req, res) => {
   }
 });
 
-// @route   PUT api/faculty/leave
+// @route   PUT api/faculty/leave/:id
 // @desc    Edit the leave details
 // @access  Public
-router.put('/leave', async (req, res) => {
+router.put('/leave/:id', async (req, res) => {
   const { leaveType, startDate, endDate, description } = req.body;
 
   try {
-    const leave = await Leave.findOne();
+    let leave = await Leave.findById(req.params.id);
     if (!leave) {
       return res.status(404).json({ msg: 'Leave not found' });
     }
@@ -73,17 +76,17 @@ router.put('/leave', async (req, res) => {
   }
 });
 
-// @route   DELETE api/faculty/leave
+// @route   DELETE api/faculty/leave/:id
 // @desc    Delete the leave details
 // @access  Public
-router.delete('/leave', async (req, res) => {
+router.delete('/leave/:id', async (req, res) => {
   try {
-    const leave = await Leave.findOne();
+    let leave = await Leave.findById(req.params.id);
     if (!leave) {
       return res.status(404).json({ msg: 'Leave not found' });
     }
 
-    await Leave.deleteOne(); // Remove the leave
+    await Leave.findByIdAndDelete(req.params.id); // Remove the leave
     res.json({ msg: 'Leave deleted' });
   } catch (err) {
     console.error(err.message);
