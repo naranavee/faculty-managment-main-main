@@ -13,7 +13,7 @@ function Profile() {
     department: '',
     qualification: '',
     salary: '',
-    married: false, // Default as false
+    married: false, 
   });
 
   const [profileData, setProfileData] = useState(null);
@@ -69,17 +69,9 @@ function Profile() {
 
       // Reset form and mode after submission
       setFormData({
-        name: '',
-        mobileNumber: '',
-        gender: '',
-        dob: '',
-        doj: '',
-        address: '',
-        designation: '',
-        department: '',
-        qualification: '',
-        salary: '',
-        married: false,
+        name: '', mobileNumber: '', gender: '', dob: '', doj: '',
+        address: '', designation: '', department: '', qualification: '',
+        salary: '', married: false
       });
       setIsEditMode(false);
       setShowProfile(false);
@@ -117,132 +109,233 @@ function Profile() {
   };
 
   return (
-    <div style={styles.card}>
-      <h2>{isEditMode ? 'Edit Faculty Profile' : 'Faculty Profile'}</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+      <h2 className="text-2xl font-semibold mb-4">
+        {isEditMode ? 'Edit Faculty Profile' : 'Faculty Profile'}
+      </h2>
       <form onSubmit={onSubmit}>
-        <label>Name:</label>
-        <input type="text" name="name" value={formData.name} onChange={onChange} required />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+            Name:
+          </label>
+          <input 
+            type="text" 
+            name="name" 
+            value={formData.name} 
+            onChange={onChange} 
+            required 
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-        <label>Mobile Number:</label>
-        <input type="text" name="mobileNumber" value={formData.mobileNumber} onChange={onChange} required />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="mobileNumber">
+            Mobile Number:
+          </label>
+          <input
+            type="text"
+            name="mobileNumber"
+            value={formData.mobileNumber}
+            onChange={onChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-        <label>Gender:</label>
-        <select name="gender" value={formData.gender} onChange={onChange} required>
-          <option value="">Select Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="gender">
+            Gender:
+          </label>
+          <select
+            name="gender"
+            value={formData.gender}
+            onChange={onChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          >
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
 
-        <label>Date of Birth:</label>
-        <input type="date" name="dob" value={formData.dob} onChange={onChange} required />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="dob">
+            Date of Birth:
+          </label>
+          <input
+            type="date"
+            name="dob"
+            value={formData.dob}
+            onChange={onChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-        <label>Date of Joining:</label>
-        <input type="date" name="doj" value={formData.doj} onChange={onChange} required />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="doj">
+            Date of Joining:
+          </label>
+          <input
+            type="date"
+            name="doj"
+            value={formData.doj}
+            onChange={onChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-        <label>Address:</label>
-        <input type="text" name="address" value={formData.address} onChange={onChange} required />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address">
+            Address:
+          </label>
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={onChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-        <label>Designation:</label>
-        <input type="text" name="designation" value={formData.designation} onChange={onChange} required />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="designation">
+            Designation:
+          </label>
+          <input
+            type="text"
+            name="designation"
+            value={formData.designation}
+            onChange={onChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-        <label>Department:</label>
-        <input type="text" name="department" value={formData.department} onChange={onChange} required />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="department">
+            Department:
+          </label>
+          <input
+            type="text"
+            name="department"
+            value={formData.department}
+            onChange={onChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-        <label>Qualification:</label>
-        <input type="text" name="qualification" value={formData.qualification} onChange={onChange} required />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="qualification">
+            Qualification:
+          </label>
+          <input
+            type="text"
+            name="qualification"
+            value={formData.qualification}
+            onChange={onChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-        <label>Salary:</label>
-        <input type="number" name="salary" value={formData.salary} onChange={onChange} required />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="salary">
+            Salary:
+          </label>
+          <input
+            type="text"
+            name="salary"
+            value={formData.salary}
+            onChange={onChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-        <label>Married:</label>
-        <select name="married" value={formData.married ? 'Yes' : 'No'} onChange={onChange} required>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="married">
+            Married:
+          </label>
+          <select
+            name="married"
+            value={formData.married ? 'Yes' : 'No'}
+            onChange={onChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          >
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
 
-        <button type="submit">{isEditMode ? 'Update Profile' : 'Register'}</button>
-        <button type="button" onClick={() => {
-          setFormData({
-            name: '', mobileNumber: '', gender: '', dob: '', doj: '',
-            address: '', designation: '', department: '', qualification: '',
-            salary: '', married: false
-          });
-          setIsEditMode(false);
-          setShowProfile(false);
-        }}>Cancel</button>
+        <div className="flex items-center justify-between">
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            {isEditMode ? 'Update Profile' : 'Register Profile'}
+          </button>
+          {isEditMode && (
+            <button
+              type="button"
+              onClick={() => setIsEditMode(false)}
+              className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </form>
 
-      {!isEditMode && (
-        <>
-          <button style={styles.viewProfileButton} onClick={onViewProfile}>View Profile</button>
+      {showProfile && profileData && (
+        <div className="mt-6">
+          <h3 className="text-xl font-semibold mb-4">Profile Details</h3>
+          <p><strong>Name:</strong> {profileData.name}</p>
+          <p><strong>Mobile Number:</strong> {profileData.mobileNumber}</p>
+          <p><strong>Gender:</strong> {profileData.gender}</p>
+          <p><strong>Date of Birth:</strong> {profileData.dob}</p>
+          <p><strong>Date of Joining:</strong> {profileData.doj}</p>
+          <p><strong>Address:</strong> {profileData.address}</p>
+          <p><strong>Designation:</strong> {profileData.designation}</p>
+          <p><strong>Department:</strong> {profileData.department}</p>
+          <p><strong>Qualification:</strong> {profileData.qualification}</p>
+          <p><strong>Salary:</strong> {profileData.salary}</p>
+          <p><strong>Married:</strong> {profileData.married ? 'Yes' : 'No'}</p>
+          <div className="flex items-center justify-between mt-4">
+            <button
+              onClick={onEditProfile}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Edit Profile
+            </button>
+            <button
+              onClick={onDeleteProfile}
+              className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Delete Profile
+            </button>
+          </div>
+        </div>
+      )}
 
-          {showProfile && profileData && (
-            <div style={styles.profileDetails}>
-              <h3>Profile Details</h3>
-              <p><strong>Name:</strong> {profileData.name}</p>
-              <p><strong>Mobile Number:</strong> {profileData.mobileNumber}</p>
-              <p><strong>Gender:</strong> {profileData.gender}</p>
-              <p><strong>Date of Birth:</strong> {profileData.dob}</p>
-              <p><strong>Date of Joining:</strong> {profileData.doj}</p>
-              <p><strong>Address:</strong> {profileData.address}</p>
-              <p><strong>Designation:</strong> {profileData.designation}</p>
-              <p><strong>Department:</strong> {profileData.department}</p>
-              <p><strong>Qualification:</strong> {profileData.qualification}</p>
-              <p><strong>Salary:</strong> {profileData.salary}</p>
-              <p><strong>Married:</strong> {profileData.married ? 'Yes' : 'No'}</p>
-              <button style={styles.editButton} onClick={onEditProfile}>Edit Profile</button>
-              <button style={styles.deleteButton} onClick={onDeleteProfile}>Delete Profile</button>
-            </div>
-          )}
-        </>
+      {!showProfile && (
+        <div className="mt-6">
+          <button
+            onClick={onViewProfile}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            View Profile
+          </button>
+        </div>
       )}
     </div>
   );
 }
-
-const styles = {
-  card: {
-    maxWidth: '500px',
-    margin: '50px auto',
-    padding: '20px',
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-    borderRadius: '10px',
-    backgroundColor: '#fff',
-  },
-  viewProfileButton: {
-    marginTop: '20px',
-    padding: '10px 20px',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  editButton: {
-    marginTop: '10px',
-    padding: '10px 20px',
-    backgroundColor: '#28a745',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  deleteButton: {
-    marginTop: '10px',
-    padding: '10px 20px',
-    backgroundColor: '#dc3545',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  profileDetails: {
-    marginTop: '20px',
-    backgroundColor: '#f8f9fa',
-    padding: '10px',
-    borderRadius: '5px',
-  },
-};
 
 export default Profile;

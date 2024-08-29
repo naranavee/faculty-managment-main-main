@@ -86,51 +86,113 @@ function ApplyForLeave() {
   };
 
   return (
-    <div style={styles.card}>
-      <h2>{isEditMode ? 'Edit Leave Request' : 'Apply for Leave'}</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg"> 
+      <h2 className="text-2xl font-semibold mb-4">
+        {isEditMode ? 'Edit Leave Request' : 'Apply for Leave'}
+      </h2>
       <form onSubmit={onSubmit}>
-        <label>Leave Type:</label>
-        <select name="leaveType" value={formData.leaveType} onChange={onChange} required>
-          <option value="">Select Leave Type</option>
-          <option value="Personal">Personal</option>
-          <option value="Sick">Sick</option>
-        </select>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="leaveType">
+            Leave Type:
+          </label>
+          <select 
+            name="leaveType" 
+            value={formData.leaveType} 
+            onChange={onChange} 
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          >
+            <option value="">Select Leave Type</option>
+            <option value="Personal">Personal</option>
+            <option value="Sick">Sick</option>
+          </select>
+        </div>
 
-        <label>Start Date:</label>
-        <input type="date" name="startDate" value={formData.startDate} onChange={onChange} required />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="startDate">
+            Start Date:
+          </label>
+          <input 
+            type="date" 
+            name="startDate" 
+            value={formData.startDate} 
+            onChange={onChange} 
+            required 
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-        <label>End Date:</label>
-        <input type="date" name="endDate" value={formData.endDate} onChange={onChange} required />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="endDate">
+            End Date:
+          </label>
+          <input 
+            type="date" 
+            name="endDate" 
+            value={formData.endDate} 
+            onChange={onChange} 
+            required 
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-        <label>Description:</label>
-        <textarea name="description" value={formData.description} onChange={onChange} required></textarea>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+            Description:
+          </label>
+          <textarea 
+            name="description" 
+            value={formData.description} 
+            onChange={onChange} 
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          ></textarea>
+        </div>
 
-        <button type="submit">{isEditMode ? 'Update Leave' : 'Submit Leave'}</button>
-        <button type="button" onClick={() => {
-          setFormData({
-            leaveType: '',
-            startDate: '',
-            endDate: '',
-            description: '',
-          });
-          setIsEditMode(false);
-          setShowLeave(false);
-        }}>Cancel</button>
+        <div className="flex justify-end mt-4">
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+            {isEditMode ? 'Update Leave' : 'Submit Leave'}
+          </button>
+          <button 
+            type="button" 
+            onClick={() => {
+              setFormData({
+                leaveType: '',
+                startDate: '',
+                endDate: '',
+                description: '',
+              });
+              setIsEditMode(false);
+              setShowLeave(false);
+            }}
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+          >
+            Cancel
+          </button>
+        </div>
       </form>
 
       {!isEditMode && (
         <>
-          <button style={styles.viewLeaveButton} onClick={onViewLeave}>View Leave Request</button>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4" onClick={onViewLeave}>
+            View Leave Request
+          </button>
 
           {showLeave && leaveData && (
-            <div style={styles.leaveDetails}>
-              <h3>Leave Details</h3>
+            <div className="mt-4 p-4 bg-gray-100 rounded-lg">
+              <h3 className="text-xl font-semibold mb-2">Leave Details</h3>
               <p><strong>Leave Type:</strong> {leaveData.leaveType}</p>
               <p><strong>Start Date:</strong> {new Date(leaveData.startDate).toLocaleDateString()}</p>
               <p><strong>End Date:</strong> {new Date(leaveData.endDate).toLocaleDateString()}</p>
               <p><strong>Description:</strong> {leaveData.description}</p>
-              <button style={styles.editButton} onClick={onEditLeave}>Edit Leave</button>
-              <button style={styles.deleteButton} onClick={onDeleteLeave}>Delete Leave</button>
+              <div className="flex justify-end mt-4">
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2" onClick={onEditLeave}>
+                  Edit Leave
+                </button>
+                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={onDeleteLeave}>
+                  Delete Leave
+                </button>
+              </div>
             </div>
           )}
         </>
@@ -138,49 +200,5 @@ function ApplyForLeave() {
     </div>
   );
 }
-
-const styles = {
-  card: {
-    maxWidth: '500px',
-    margin: '50px auto',
-    padding: '20px',
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-    borderRadius: '10px',
-    backgroundColor: '#fff',
-  },
-  viewLeaveButton: {
-    marginTop: '20px',
-    padding: '10px 20px',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  editButton: {
-    marginTop: '10px',
-    padding: '10px 20px',
-    backgroundColor: '#28a745',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  deleteButton: {
-    marginTop: '10px',
-    padding: '10px 20px',
-    backgroundColor: '#dc3545',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  leaveDetails: {
-    marginTop: '20px',
-    backgroundColor: '#f8f9fa',
-    padding: '10px',
-    borderRadius: '5px',
-  },
-};
 
 export default ApplyForLeave;

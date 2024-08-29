@@ -35,15 +35,21 @@ function FacultyHome() {
   };
 
   return (
-    <div>
-      <Sidebar 
-        onProfileClick={handleProfileClick} 
+    <div className="flex h-screen"> 
+      <Sidebar
+        onProfileClick={handleProfileClick}
         onApplyForLeaveClick={handleApplyForLeaveClick}
         onWorkshopClick={handleWorkshopClick}
       />
-      <div style={{ marginLeft: '220px', padding: '20px' }}>
-        <h2>Welcome to the Faculty Home Page!</h2>
-        <button onClick={handleLogout}>Logout</button>
+      <div className="flex-grow ml-64 p-8 bg-gray-100"> 
+        <h2 className="text-3xl font-semibold mb-4">Welcome to the Faculty Home Page!</h2>
+        <button 
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+
         {showProfile && <Profile />}
         {showApplyForLeave && <ApplyForLeave />}
         {showWorkshop && <Workshop />}
