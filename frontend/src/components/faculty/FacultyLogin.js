@@ -22,50 +22,66 @@ function FacultyLogin() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-red-400 to-blue-500"> 
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"> 
-        <h2 className="text-2xl font-bold mb-4 text-center">Sign in</h2>
-        <p className="text-center mb-6">
-          Don't have an account? <Link to="/faculty/signup" className="text-blue-500 hover:underline">Sign up here</Link>
-        </p>
+    <div className="flex min-h-screen">
+      {/* Left side with image */}
+      <div className="w-1/2 bg-gray-100">
+        <img
+          src="https://img.freepik.com/free-vector/hand-drawn-online-tutor-illustration_23-2150939211.jpg" // Image URL
+          alt="Login Illustration"
+          className="object-cover h-full w-full"
+        />
+      </div>
 
-        <form className="form" onSubmit={onSubmit}>
-          <div className="mb-4">
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={onChange}
-              placeholder="Email address"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-              required
-            />
-          </div>
-          <div className="mb-4"> 
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={onChange}
-              placeholder="Password"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-              required
-            />
-          </div>
+      {/* Right side with form */}
+      <div className="w-1/2 flex items-center justify-center bg-purple-100">
+        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+          <h2 className="text-3xl font-bold mb-6 text-center text-purple-600">Faculty Login</h2>
 
-          
-
-          <div className="flex items-center justify-center"> 
-            <button 
+          <form className="space-y-4" onSubmit={onSubmit}>
+            <div>
+              <label htmlFor="email" className="sr-only">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={onChange}
+                placeholder="Email"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-purple-500"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="sr-only">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={password}
+                onChange={onChange}
+                placeholder="Password"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-purple-500"
+                required
+              />
+            </div>
+            <div className="flex justify-end">
+              <Link to="/forgot-password" className="text-purple-600 hover:underline">
+                Forgot Password?
+              </Link>
+            </div>
+            <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-5 px-10 rounded w-full  items-center justify-between"
+              className="w-full py-3 bg-purple-600 hover:bg-purple-800 text-white font-bold rounded-md transition duration-300"
             >
-              Sign in
-              
+              Log in
             </button>
-          </div>
-        </form>
+          </form>
 
+          <p className="text-center mt-6 text-gray-500">
+            Don’t have an account?{' '}
+            <Link to="/faculty/signup" className="text-purple-600 hover:underline">
+              Sign up for free
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
