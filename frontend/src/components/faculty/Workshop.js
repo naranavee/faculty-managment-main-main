@@ -9,7 +9,7 @@ function Workshop() {
     started: '',
     ended: '',
     numberOfDays: '',
-    approved: 'No'
+    approved: 'No' // Default value for 'approved'
   });
 
   const [workshops, setWorkshops] = useState([]);
@@ -69,9 +69,10 @@ function Workshop() {
         started: '',
         ended: '',
         numberOfDays: '',
-        approved: 'No'
+        approved: 'No' // Reset to default
       });
       setIsEditMode(false);
+      setIsRegisterMode(false);
       fetchWorkshops();
     } catch (err) {
       console.error(err.response.data);
@@ -205,7 +206,7 @@ function Workshop() {
               name="approved" 
               value={formData.approved} 
               onChange={onChange} 
-              disabled={isEditMode} 
+              disabled={isRegisterMode} // Disable when registering
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="No">No</option>
@@ -226,7 +227,7 @@ function Workshop() {
                   started: '',
                   ended: '',
                   numberOfDays: '',
-                  approved: 'No'
+                  approved: 'No' // Reset to default
                 });
                 setIsEditMode(false);
                 setIsRegisterMode(false);

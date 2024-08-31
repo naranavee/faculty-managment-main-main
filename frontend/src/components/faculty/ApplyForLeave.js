@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function ApplyForLeave() {
+function ApplyForLeave({ isAdmin }) { // Pass isAdmin prop to determine if the user is an admin
   const [formData, setFormData] = useState({
     leaveType: '',
     startDate: '',
     endDate: '',
     description: '',
-    approved: 'No'  // Initialize approved field
+    approved: 'No' // Default value
   });
 
   const [leaves, setLeaves] = useState([]);
@@ -29,7 +29,7 @@ function ApplyForLeave() {
         startDate: selectedLeave.startDate,
         endDate: selectedLeave.endDate,
         description: selectedLeave.description,
-        approved: selectedLeave.approved  // Load the approved status when editing
+        approved: selectedLeave.approved
       });
     }
   }, [isEditMode, selectedLeave]);
@@ -63,11 +63,11 @@ function ApplyForLeave() {
         startDate: '',
         endDate: '',
         description: '',
-        approved: 'No'  // Reset the approved field after submission
+        approved: 'No' // Reset after submission
       });
       setIsEditMode(false);
       setIsApplyMode(false);
-      fetchLeaves(); // Refresh the list of leaves
+      fetchLeaves(); // Refresh the list
     } catch (err) {
       console.error(err.response.data);
     }
@@ -171,21 +171,22 @@ function ApplyForLeave() {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               ></textarea>
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="approved">
-                Approved:
-              </label>
-              <select 
-                name="approved" 
-                value={formData.approved} 
-                onChange={onChange} 
-                disabled={isEditMode}  // Disable in edit mode
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              >
-                <option value="No">No</option>
-                <option value="Yes">Yes</option>
-              </select>
-            </div>
+            {isAdmin && ( // Show approved field only for admin
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="approved">
+                  Approved:
+                </label>
+                <select 
+                  name="approved" 
+                  value={formData.approved} 
+                  onChange={onChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+              </div>
+            )}
             <div className="flex justify-end mt-4">
               <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
                 {isEditMode ? 'Update Leave' : 'Submit Leave'}
@@ -198,7 +199,7 @@ function ApplyForLeave() {
                     startDate: '',
                     endDate: '',
                     description: '',
-                    approved: 'No'  // Reset the approved field
+                    approved: 'No' // Reset the approved field
                   });
                   setIsEditMode(false);
                   setIsApplyMode(false);
@@ -228,20 +229,24 @@ function ApplyForLeave() {
                 <p><strong>Start Date:</strong> {new Date(leave.startDate).toLocaleDateString()}</p>
                 <p><strong>End Date:</strong> {new Date(leave.endDate).toLocaleDateString()}</p>
                 <p><strong>Description:</strong> {leave.description}</p>
-                <p><strong>Approved:</strong> {leave.approved}</p> {/* Display approval status */}
+                <p><strong>Approved:</strong> {leave.approved}</p>
                 <div className="flex justify-end mt-4">
-                  <button 
-                    onClick={() => onEditLeave(leave)}
-                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-                  >
-                    Edit Leave
-                  </button>
-                  <button 
-                    onClick={() => onDeleteLeave(leave._id)}
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Delete Leave
-                  </button>
+                  {isAdmin && ( // Show edit and delete options only for admin
+                    <>
+                      <button 
+                        onClick={() => onEditLeave(leave)}
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+                      >
+                        Edit Leave
+                      </button>
+                      <button 
+                        onClick={() => onDeleteLeave(leave._id)}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        Delete Leave
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             ))
