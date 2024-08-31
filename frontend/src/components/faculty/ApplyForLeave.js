@@ -6,19 +6,21 @@ function ApplyForLeave() {
     leaveType: '',
     startDate: '',
     endDate: '',
-    description: ''
+    description: '',
+    approved: 'No'  // Initialize approved field
   });
 
   const [leaves, setLeaves] = useState([]);
   const [selectedLeave, setSelectedLeave] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [showLeave, setShowLeave] = useState(false);
+  const [isApplyMode, setIsApplyMode] = useState(false);
+  const [isViewMode, setIsViewMode] = useState(false);
 
   useEffect(() => {
-    if (showLeave) {
+    if (isViewMode) {
       fetchLeaves();
     }
-  }, [showLeave]);
+  }, [isViewMode]);
 
   useEffect(() => {
     if (isEditMode && selectedLeave) {
@@ -26,7 +28,8 @@ function ApplyForLeave() {
         leaveType: selectedLeave.leaveType,
         startDate: selectedLeave.startDate,
         endDate: selectedLeave.endDate,
-        description: selectedLeave.description
+        description: selectedLeave.description,
+        approved: selectedLeave.approved  // Load the approved status when editing
       });
     }
   }, [isEditMode, selectedLeave]);
@@ -59,9 +62,11 @@ function ApplyForLeave() {
         leaveType: '',
         startDate: '',
         endDate: '',
-        description: ''
+        description: '',
+        approved: 'No'  // Reset the approved field after submission
       });
       setIsEditMode(false);
+      setIsApplyMode(false);
       fetchLeaves(); // Refresh the list of leaves
     } catch (err) {
       console.error(err.response.data);
@@ -83,6 +88,7 @@ function ApplyForLeave() {
   const onEditLeave = (leave) => {
     setSelectedLeave(leave);
     setIsEditMode(true);
+    setIsApplyMode(true);
   };
 
   return (
@@ -91,14 +97,24 @@ function ApplyForLeave() {
         {isEditMode ? 'Edit Leave Request' : 'Apply for Leave'}
       </h2>
 
-      {!showLeave ? (
-        <button 
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setShowLeave(true)}
-        >
-          Apply/View Leave
-        </button>
-      ) : (
+      {!isApplyMode && !isViewMode && (
+        <div className="flex justify-between">
+          <button 
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => setIsApplyMode(true)}
+          >
+            Apply for Leave
+          </button>
+          <button 
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => setIsViewMode(true)}
+          >
+            View Leave Requests
+          </button>
+        </div>
+      )}
+
+      {isApplyMode && (
         <>
           <form onSubmit={onSubmit} className="mb-6">
             <div className="mb-4">
@@ -155,6 +171,21 @@ function ApplyForLeave() {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               ></textarea>
             </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="approved">
+                Approved:
+              </label>
+              <select 
+                name="approved" 
+                value={formData.approved} 
+                onChange={onChange} 
+                disabled={isEditMode}  // Disable in edit mode
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+              </select>
+            </div>
             <div className="flex justify-end mt-4">
               <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
                 {isEditMode ? 'Update Leave' : 'Submit Leave'}
@@ -166,9 +197,11 @@ function ApplyForLeave() {
                     leaveType: '',
                     startDate: '',
                     endDate: '',
-                    description: ''
+                    description: '',
+                    approved: 'No'  // Reset the approved field
                   });
                   setIsEditMode(false);
+                  setIsApplyMode(false);
                 }}
                 className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
               >
@@ -176,6 +209,17 @@ function ApplyForLeave() {
               </button>
             </div>
           </form>
+          <button 
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mt-4"
+            onClick={() => setIsApplyMode(false)}
+          >
+            Back to Apply/View Options
+          </button>
+        </>
+      )}
+
+      {isViewMode && (
+        <>
           {leaves.length > 0 ? (
             leaves.map(leave => (
               <div key={leave._id} className="mt-4 p-4 bg-gray-100 rounded-lg">
@@ -184,6 +228,7 @@ function ApplyForLeave() {
                 <p><strong>Start Date:</strong> {new Date(leave.startDate).toLocaleDateString()}</p>
                 <p><strong>End Date:</strong> {new Date(leave.endDate).toLocaleDateString()}</p>
                 <p><strong>Description:</strong> {leave.description}</p>
+                <p><strong>Approved:</strong> {leave.approved}</p> {/* Display approval status */}
                 <div className="flex justify-end mt-4">
                   <button 
                     onClick={() => onEditLeave(leave)}
@@ -192,7 +237,7 @@ function ApplyForLeave() {
                     Edit Leave
                   </button>
                   <button 
-                    onClick={() => onDeleteLeave(leave._id)} 
+                    onClick={() => onDeleteLeave(leave._id)}
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                   >
                     Delete Leave
@@ -201,8 +246,14 @@ function ApplyForLeave() {
               </div>
             ))
           ) : (
-            <p>No leave requests available.</p>
+            <p className="mt-4">No leave requests found.</p>
           )}
+          <button 
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mt-4"
+            onClick={() => setIsViewMode(false)}
+          >
+            Back to Apply/View Options
+          </button>
         </>
       )}
     </div>

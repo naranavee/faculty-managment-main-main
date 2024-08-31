@@ -10,6 +10,7 @@ function ViewLeaves() {
     startDate: '',
     endDate: '',
     description: '',
+    approved: 'No', // Added approved field
   });
 
   useEffect(() => {
@@ -70,6 +71,7 @@ function ViewLeaves() {
       startDate: leave.startDate,
       endDate: leave.endDate,
       description: leave.description,
+      approved: leave.approved || 'No', // Set approved field
     });
     setEditMode(true);
   };
@@ -96,7 +98,55 @@ function ViewLeaves() {
             </select>
           </div>
 
-          {/* Other form fields... */}
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="startDate">Start Date:</label>
+            <input 
+              type="date" 
+              name="startDate" 
+              value={formData.startDate} 
+              onChange={onChange} 
+              required 
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="endDate">End Date:</label>
+            <input 
+              type="date" 
+              name="endDate" 
+              value={formData.endDate} 
+              onChange={onChange} 
+              required 
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">Description:</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={onChange}
+              required
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              rows="3"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="approved">Approved:</label>
+            <select
+              name="approved"
+              value={formData.approved}
+              onChange={onChange}
+              required
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
 
           <div className="flex justify-end mt-4">
             <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
@@ -126,6 +176,8 @@ function ViewLeaves() {
                     <div>{new Date(leave.endDate).toLocaleDateString()}</div>
                     <div className="font-semibold">Description:</div>
                     <div>{leave.description}</div>
+                    <div className="font-semibold">Approved:</div>
+                    <div>{leave.approved}</div>
                   </div>
                   <div className="flex justify-end mt-4">
                     <button
@@ -145,7 +197,7 @@ function ViewLeaves() {
               </div>
             ))
           ) : (
-            <p className="text-center w-full">No leave data available.</p>
+            <p>No leave data available.</p>
           )}
         </div>
       )}

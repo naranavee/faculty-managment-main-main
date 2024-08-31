@@ -18,6 +18,11 @@ const LeaveSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  approved: {
+    type: String,
+    enum: ['Yes', 'No'],
+    default: 'No',
+  },
 });
 
 module.exports = mongoose.model('Leave', LeaveSchema);

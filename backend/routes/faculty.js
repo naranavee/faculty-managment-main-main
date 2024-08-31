@@ -13,13 +13,6 @@ router.post('/profile', async (req, res) => {
   } = req.body;
 
   try {
-    // Check if a profile already exists
-    let profile = await FacultyProfile.findOne();
-    
-    if (profile) {
-      return res.status(400).json({ msg: 'Profile already exists' });
-    }
-
     const newProfile = new FacultyProfile({
       name,
       mobileNumber,
@@ -34,7 +27,7 @@ router.post('/profile', async (req, res) => {
       married
     });
 
-    profile = await newProfile.save();
+    const profile = await newProfile.save();
     res.json(profile);
   } catch (err) {
     console.error(err.message);
@@ -42,26 +35,45 @@ router.post('/profile', async (req, res) => {
   }
 });
 
-// @route   GET api/faculty/profile
-// @desc    Fetch the faculty profile
+// @route   GET api/faculty/profiles
+// @desc    Fetch all faculty profiles
 // @access  Public
-router.get('/profile', async (req, res) => {
+router.get('/profiles', async (req, res) => {
   try {
-    const profile = await FacultyProfile.findOne();
+    const profiles = await FacultyProfile.find();
+    if (!profiles.length) {
+      return res.status(404).json({ msg: 'No profiles found' });
+    }
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// @route   GET api/faculty/profile/:id
+// @desc    Fetch a specific faculty profile by ID
+// @access  Public
+router.get('/profile/:id', async (req, res) => {
+  try {
+    const profile = await FacultyProfile.findById(req.params.id);
     if (!profile) {
       return res.status(404).json({ msg: 'Profile not found' });
     }
     res.json(profile);
   } catch (err) {
     console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Profile not found' });
+    }
     res.status(500).send('Server error');
   }
 });
 
-// @route   PUT api/faculty/profile
-// @desc    Edit the faculty profile
+// @route   PUT api/faculty/profile/:id
+// @desc    Edit a faculty profile by ID
 // @access  Public
-router.put('/profile', async (req, res) => {
+router.put('/profile/:id', async (req, res) => {
   const {
     name, mobileNumber, gender, dob, doj,
     address, designation, department, qualification,
@@ -69,7 +81,7 @@ router.put('/profile', async (req, res) => {
   } = req.body;
 
   try {
-    const profile = await FacultyProfile.findOne();
+    let profile = await FacultyProfile.findById(req.params.id);
     if (!profile) {
       return res.status(404).json({ msg: 'Profile not found' });
     }
@@ -91,26 +103,34 @@ router.put('/profile', async (req, res) => {
     res.json(profile);
   } catch (err) {
     console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Profile not found' });
+    }
     res.status(500).send('Server error');
   }
 });
 
-// @route   DELETE api/faculty/profile
-// @desc    Delete the faculty profile
+// @route   DELETE api/faculty/profile/:id
+// @desc    Delete a faculty profile by ID
 // @access  Public
-router.delete('/profile', async (req, res) => {
+// @route   DELETE api/faculty/profile/:id
+// @desc    Delete a faculty profile by ID
+// @access  Public
+router.delete('/profile/:id', async (req, res) => {
   try {
-    const profile = await FacultyProfile.findOne();
+    // Find and remove the profile by ID
+    const profile = await FacultyProfile.findById(req.params.id);
     if (!profile) {
       return res.status(404).json({ msg: 'Profile not found' });
     }
 
-    await FacultyProfile.deleteOne(); // Remove the profile
+    await FacultyProfile.findByIdAndDelete(req.params.id); // Use findByIdAndDelete
     res.json({ msg: 'Profile deleted' });
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in DELETE /profile/:id', err.message);
     res.status(500).send('Server error');
   }
 });
+
 
 module.exports = router;

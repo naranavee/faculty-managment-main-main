@@ -12,6 +12,7 @@ function ViewWorkshop() {
     started: '',
     ended: '',
     numberOfDays: '',
+    approved: 'No', // Added approved field
   });
 
   useEffect(() => {
@@ -141,6 +142,20 @@ function ViewWorkshop() {
             />
           </div>
 
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="approved">Approved:</label>
+            <select
+              name="approved"
+              value={formData.approved}
+              onChange={onChange}
+              required
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+
           <div className="flex justify-end mt-4">
             <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
               Update Workshop
@@ -166,9 +181,10 @@ function ViewWorkshop() {
                   <p><strong>Started:</strong> {workshop.started}</p>
                   <p><strong>Ended:</strong> {workshop.ended}</p>
                   <p><strong>Number of Days:</strong> {workshop.numberOfDays}</p>
+                  <p><strong>Approved:</strong> {workshop.approved}</p>
                   <div className="flex justify-end mt-4">
                     <button
-                      onClick={() => { setCurrentWorkshop(workshop); setEditMode(true); }}
+                      onClick={() => { setCurrentWorkshop(workshop); setFormData(workshop); setEditMode(true); }}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
                     >
                       Edit

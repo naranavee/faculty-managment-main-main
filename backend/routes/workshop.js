@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const Workshop = require('../models/Workshop');
 
-// @route   POST api/workshop
+// @route   POST api/workshops
 // @desc    Register a workshop
 // @access  Public
 router.post('/workshops', async (req, res) => {
   const {
-    facultyMail, nameOfWorkshop, venue, started, ended, numberOfDays
+    facultyMail, nameOfWorkshop, venue, started, ended, numberOfDays, approved
   } = req.body;
 
   try {
@@ -24,7 +24,8 @@ router.post('/workshops', async (req, res) => {
       venue,
       started,
       ended,
-      numberOfDays
+      numberOfDays,
+      approved // Added approved field
     });
 
     workshop = await newWorkshop.save();
@@ -48,10 +49,7 @@ router.get('/workshops', async (req, res) => {
   }
 });
 
-
-  
-
-// @route   GET api/workshop/:id
+// @route   GET api/workshops/:id
 // @desc    Fetch a specific workshop by ID
 // @access  Public
 router.get('/workshops/:id', async (req, res) => {
@@ -67,12 +65,12 @@ router.get('/workshops/:id', async (req, res) => {
   }
 });
 
-// @route   PUT api/workshop/:id
+// @route   PUT api/workshops/:id
 // @desc    Edit a specific workshop by ID
 // @access  Public
 router.put('/workshops/:id', async (req, res) => {
   const {
-    facultyMail, nameOfWorkshop, venue, started, ended, numberOfDays
+    facultyMail, nameOfWorkshop, venue, started, ended, numberOfDays, approved
   } = req.body;
 
   try {
@@ -88,6 +86,7 @@ router.put('/workshops/:id', async (req, res) => {
     workshop.started = started || workshop.started;
     workshop.ended = ended || workshop.ended;
     workshop.numberOfDays = numberOfDays || workshop.numberOfDays;
+    workshop.approved = approved !== undefined ? approved : workshop.approved; // Update approved field if provided
 
     await workshop.save();
     res.json(workshop);
@@ -97,22 +96,21 @@ router.put('/workshops/:id', async (req, res) => {
   }
 });
 
-// @route   DELETE api/workshop/:id
+// @route   DELETE api/workshops/:id
 // @desc    Delete a specific workshop by ID
 // @access  Public
 router.delete('/workshops/:id', async (req, res) => {
-    try {
-      const result = await Workshop.deleteOne({ _id: req.params.id });
-      if (result.deletedCount === 0) {
-        return res.status(404).json({ msg: 'Workshop not found' });
-      }
-  
-      res.json({ msg: 'Workshop deleted' });
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server error');
+  try {
+    const result = await Workshop.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ msg: 'Workshop not found' });
     }
-  });
   
+    res.json({ msg: 'Workshop deleted' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
 
 module.exports = router;

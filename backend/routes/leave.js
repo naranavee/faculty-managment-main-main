@@ -35,7 +35,7 @@ router.post('/leave', async (req, res) => {
 });
 
 // @route   GET api/faculty/leave
-// @desc    Fetch the leave details
+// @desc    Fetch all leave details
 // @access  Public
 router.get('/leave', async (req, res) => {
   try {
@@ -54,7 +54,7 @@ router.get('/leave', async (req, res) => {
 // @desc    Edit the leave details
 // @access  Public
 router.put('/leave/:id', async (req, res) => {
-  const { leaveType, startDate, endDate, description } = req.body;
+  const { leaveType, startDate, endDate, description, approved } = req.body;
 
   try {
     let leave = await Leave.findById(req.params.id);
@@ -67,6 +67,9 @@ router.put('/leave/:id', async (req, res) => {
     leave.startDate = startDate || leave.startDate;
     leave.endDate = endDate || leave.endDate;
     leave.description = description || leave.description;
+    if (approved !== undefined) { // Only update if provided
+      leave.approved = approved;
+    }
 
     await leave.save();
     res.json(leave);
