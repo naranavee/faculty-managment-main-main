@@ -11,8 +11,14 @@ The Faculty Management System (FMS) is a web-based application developed to mana
 
 Demo
 
+![Screenshot 2024-09-02 013617](https://github.com/user-attachments/assets/52be5c9c-895a-47e5-8bdd-937edcf577d0)
+
+![Screenshot 2024-09-02 014120](https://github.com/user-attachments/assets/44a513dd-36ef-496e-a89a-9ce91b06df20)
 
 
+![Screenshot 2024-09-02 014516](https://github.com/user-attachments/assets/1054fded-4950-4a88-9171-aabbc092784b)
+
+![Screenshot 2024-09-02 014623](https://github.com/user-attachments/assets/1b566526-1192-4a66-b6b0-f3d8c735649b)
 
 
 
