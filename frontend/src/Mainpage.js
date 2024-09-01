@@ -5,12 +5,10 @@ import { FaDribbble, FaEnvelope, FaInstagram, FaLinkedin, FaTwitter } from 'reac
 const MainPage = () => {
   const navigate = useNavigate();
 
-  const navigateToAdminLogin = () => {
-    navigate('/admin/login');
-  };
+ 
 
   const navigateToFacultyLogin = () => {
-    navigate('/faculty/login');
+    navigate('/login');
   };
 
   const imageUrl = "https://www.veltech.edu.in/faculty/assets/images/Full-Campus.jpg"; 
@@ -21,17 +19,12 @@ const MainPage = () => {
       <header className="bg-gray-800 text-white py-4 px-8 flex justify-between items-center"> 
         <img src={logoUrl} alt="Your Logo" className="h-13 w-20" /> 
         <div className="space-x-4">
-          <button 
-            className="bg-yellow-500 hover:bg-yellow-600 text-gray-800 font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110" 
-            onClick={navigateToAdminLogin}
-          >
-            Admin
-          </button>
+          
           <button 
             className="bg-yellow-500 hover:bg-yellow-600 text-gray-800 font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110" 
             onClick={navigateToFacultyLogin}
           >
-            Faculty
+            Admin/Faculty
           </button>
         </div>
       </header>
