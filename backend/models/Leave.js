@@ -1,28 +1,19 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const LeaveSchema = new mongoose.Schema({
-  leaveType: {
+const leaveSchema = new mongoose.Schema({
+  reason: {
     type: String,
     required: true,
-    enum: ['Personal', 'Sick'],
   },
-  startDate: {
-    type: Date,
-    required: true,
-  },
-  endDate: {
-    type: Date,
-    required: true,
-  },
-  description: {
+  date: {
     type: String,
     required: true,
   },
   approved: {
-    type: String,
-    enum: ['Yes', 'No'],
-    default: 'No',
+    type: Boolean,
+    default: false,
   },
 });
 
-module.exports = mongoose.model('Leave', LeaveSchema);
+const leave = mongoose.model("leave", leaveSchema);
+module.exports = leave;

@@ -1,21 +1,57 @@
-const express = require('express');
-const connectDB = require('./config/db');
-const cors = require('cors');
+const express = require("express");
+const connectDB = require("./config/db");
+const FacultyRoutes = require("./routes/FacultyRoutes");
+const JournalRoutes = require("./routes/JournalRoutes");
+const LeavesRoutes = require("./routes/LeaveRoutes");
+const WorkshopsRoutes = require("./routes/WorkshopRoutes");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const { ApolloServer } = require("apollo-server-express");
+const leaveTypeDefs = require("./graphql/leaveschema");
+const leaveResolvers = require("./graphql/leaveresolvers");
+const workshopTypeDefs = require("./graphql/workshopschema");
+const workshopResolvers = require("./graphql/workshopresolvers");
+const journalTypeDefs = require("./graphql/journalschema");
+const journalResolvers = require("./graphql/journalresolvers");
+const facultyTypeDefs = require("./graphql/facultyschema");
+const facultyResolvers = require("./graphql/facultyresolvers");
 
 const app = express();
-
-// Connect to database
 connectDB();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+// Create Apollo Server
+const server = new ApolloServer({
+  typeDefs: [leaveTypeDefs, workshopTypeDefs, journalTypeDefs, facultyTypeDefs],
+  resolvers: [
+    leaveResolvers,
+    workshopResolvers,
+    journalResolvers,
+    facultyResolvers,
+  ],
+});
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/faculty', require('./routes/faculty'));
-app.use('/api/faculty', require('./routes/workshop'));
-app.use('/api/faculty', require('./routes/leave'));  // Add this line for workshop routes
+async function startServer() {
+  // Start Apollo Server
+  await server.start();
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+  // Apply Apollo Middleware
+  server.applyMiddleware({ app });
+
+  app.use(cors());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+
+  // REST routes
+  app.use("/faculty", FacultyRoutes);
+  app.use("/journal", JournalRoutes);
+  app.use("/leaves", LeavesRoutes);
+  app.use("/workshop", WorkshopsRoutes);
+
+  app.listen(8080, () => {
+    console.log(`Server Running on port 8080${server.graphqlPath}`);
+  });
+}
+
+startServer().catch((err) => {
+  console.error("Error starting server:", err);
+});
