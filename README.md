@@ -11,15 +11,6 @@ The Faculty Management System (FMS) is a web-based application developed to mana
 
 Demo
 
-![Screenshot 2024-08-31 103103](https://github.com/user-attachments/assets/f26af318-6ead-4ef9-9691-6e3106e29af2)
-
-
-![Screenshot 2024-09-02 014031](https://github.com/user-attachments/assets/ecca06ea-55b6-4ebb-bb84-aaca0cc2f167)
-
-![Screenshot 2024-09-02 014516](https://github.com/user-attachments/assets/bd8cf3c0-e87c-4adb-a956-8962b153d834)
-
-![Screenshot 2024-09-02 014623](https://github.com/user-attachments/assets/2d005444-4154-47cb-a6c7-22d682104182)
-
 
 
 
@@ -33,14 +24,12 @@ Technology
 The Faculty Management System is built using the following technologies:
 
 Backend:
-
 Node.js: JavaScript runtime used for server-side development.
 Express.js: Web framework for building RESTful APIs.
 MongoDB: NoSQL database used to store data related to faculty, workshops, journals, and leaves.
 GraphQL: Used for efficient data querying and manipulation.
 Mongoose: ODM library for MongoDB, used to define and manage data schemas.
 Web Frontend:
-
 React: JavaScript library for building user interfaces.
 Tailwind CSS: Utility-first CSS framework for responsive and customizable design.
 Bootstrap: CSS framework for building responsive and mobile-first components.
@@ -50,14 +39,12 @@ Features
 The Faculty Management System offers the following features:
 
 Faculty Home Page:
-
 Profile: Faculty members can view and update their profiles.
 Workshop: Manage workshops, including registering, updating, and deleting workshops.
 Project Journals: Add and manage project journals, including adding details like title, journal name, publisher, and department.
 Apply Leaves: Faculty can apply for leave and track leave status.
 Logout: Securely log out of the system.
 Admin Page:
-
 View Profiles: Administrators can view, update, and delete faculty profiles.
 View Workshops: Manage workshops, with options to approve, edit, and delete entries.
 Journals: Manage project journals, including editing, deleting, and approving journal entries.
