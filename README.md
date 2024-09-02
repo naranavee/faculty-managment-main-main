@@ -9,6 +9,13 @@ Color Palette
 Introduction
 The Faculty Management System (FMS) is a web-based application developed to manage various faculty-related activities within an educational institution. It includes features like workshop management, project journals, leave applications, and profile management, with complete CRUD operations. The system also provides administrators with tools to manage and approve workshops, journals, and leave requests.
 
+
+for running the project 
+
+1.clone the project:https://github.com/naranavee/faculty-managment-main-main.git
+2.step 1 -> cd backend step 2 -> npm i step 3 -> npm run start
+3.step 1 -> cd frontend step 2 -> npm i step 3 -> npm run start
+
 Demo
 
 ![Screenshot 2024-09-02 013617](https://github.com/user-attachments/assets/52be5c9c-895a-47e5-8bdd-937edcf577d0)
