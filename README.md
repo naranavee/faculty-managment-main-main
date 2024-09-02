@@ -1,83 +1,158 @@
-Table of Contents
-Introduction
-Demo
-Technology
-Features
-CRUD Operations
-Testing
-Color Palette
-Introduction
-The Faculty Management System (FMS) is a web-based application developed to manage various faculty-related activities within an educational institution. It includes features like workshop management, project journals, leave applications, and profile management, with complete CRUD operations. The system also provides administrators with tools to manage and approve workshops, journals, and leave requests.
+# Faculty Management System (Capstone Project)
+## Table of Contents
+- [Introduction](#Introduction)
+- [Project Overview](#Project_Overview)
+- [System Architecture](#System_Architecture)
+- [Technology Stack](#Technology_Stack)
+- [Features](##Features)
+- [Setup and Installation](#Setup_and_Installation)
+- [Project Structure](Project_Structure)
+- [Project Dependencies](#ProjectProject_Dependencies)
+- [Testing and Quality Assurance](#Testing_and_Quality_Assurance)
+- [Deployment](#Deployment)
 
 
-for running the project 
+## Introduction
+The Faculty Management System (CMS) is a comprehensive solution designed to manage workshop, journals, and leaves within a college faculty management environment. This project demonstrates the use of modern web development technologies to create a responsive and efficient management system.
 
-1.clone the project:https://github.com/naranavee/faculty-managment-main-main.git
-2.step 1 -> cd backend step 2 -> npm i step 3 -> npm run start
-3.step 1 -> cd frontend step 2 -> npm i step 3 -> npm run start
+## Project Overview
+The Faculty Management System (CMS) provides the following primary features:
 
-Demo
-
-![Screenshot 2024-09-02 013617](https://github.com/user-attachments/assets/52be5c9c-895a-47e5-8bdd-937edcf577d0)
-
-![Screenshot 2024-09-02 014120](https://github.com/user-attachments/assets/44a513dd-36ef-496e-a89a-9ce91b06df20)
-
-
-![Screenshot 2024-09-02 014516](https://github.com/user-attachments/assets/1054fded-4950-4a88-9171-aabbc092784b)
-
-![Screenshot 2024-09-02 014623](https://github.com/user-attachments/assets/1b566526-1192-4a66-b6b0-f3d8c735649b)
+User Authentication: Secure registration and login functionality.
+Task Management: Create, update, delete, and categorize tasks related to faculty operations.
+User Interface: A responsive and user-friendly interface for both web and mobile platforms.
+Role-Based Access Control: Different views and functionalities for admins and regular users.
 
 
-
-
-
-The screenshots above showcase key components of the Faculty Management System. The Faculty Home Page allows faculty members to manage their profiles, workshops, project journals, and leave applications, while the Admin Page provides tools to manage and approve these activities.
-
-Technology
-The Faculty Management System is built using the following technologies:
+## System Architecture
+The CMS is built with a separation of concerns in mind, utilizing a microservice-like architecture with distinct backend and frontend components.
 
 Backend:
-Node.js: JavaScript runtime used for server-side development.
-Express.js: Web framework for building RESTful APIs.
-MongoDB: NoSQL database used to store data related to faculty, workshops, journals, and leaves.
-GraphQL: Used for efficient data querying and manipulation.
-Mongoose: ODM library for MongoDB, used to define and manage data schemas.
+Technologies: Node.js, Express.js, MongoDB, GraphQL
+Description: The backend handles user authentication, task management, and provides RESTful and GraphQL APIs for managing data.
 Web Frontend:
-React: JavaScript library for building user interfaces.
-Tailwind CSS: Utility-first CSS framework for responsive and customizable design.
-Bootstrap: CSS framework for building responsive and mobile-first components.
-Axios: HTTP client for making API requests.
-React Router: For handling navigation and routing within the application.
-Features
-The Faculty Management System offers the following features:
+Technologies: React, Redux, CSS, GraphQL
+Description: The frontend is a single-page application built with React, styled with CSS, and integrated with GraphQL to handle data operations.
 
-Faculty Home Page:
-Profile: Faculty members can view and update their profiles.
-Workshop: Manage workshops, including registering, updating, and deleting workshops.
-Project Journals: Add and manage project journals, including adding details like title, journal name, publisher, and department.
-Apply Leaves: Faculty can apply for leave and track leave status.
-Logout: Securely log out of the system.
-Admin Page:
-View Profiles: Administrators can view, update, and delete faculty profiles.
-View Workshops: Manage workshops, with options to approve, edit, and delete entries.
-Journals: Manage project journals, including editing, deleting, and approving journal entries.
-View Leaves: Review and approve leave applications submitted by faculty.
-CRUD Operations
-The system supports the following CRUD operations:
-
-Create: Add new workshops, project journals, leaves, and profiles.
-Read: View faculty profiles, workshops, journals, and leave requests.
-Update: Edit existing workshops, journals, profiles, and leave statuses.
-Delete: Remove workshops, journals, profiles, and leave requests from the system.
+## Technology Stack
+Frontend (Web)
+React
+Redux
+CSS
+GraphQL
+Backend
+Node.js
+Express.js
+MongoDB
+GraphQL
 Testing
-The Faculty Management System employs various testing techniques to ensure the quality and reliability of the application:
+PlayWright
+Deployment
 
-Unit Testing: Each function and component is tested individually to verify that they work as expected. This includes testing API endpoints, reducers, and utility functions.
-Integration Testing: Testing the interaction between different components, such as ensuring that API calls correctly update the state and that UI components render based on the state.
-End-to-End Testing: Simulating user interactions from the frontend to the backend, ensuring that the entire application workflow functions correctly. Tools like Cypress or Selenium can be used for this purpose.
-Automated Testing: Continuous integration (CI) pipelines are set up to run automated tests on code changes, ensuring that new features do not break existing functionality.
-Manual Testing: In addition to automated tests, manual testing is conducted to catch any issues that automated tests may miss, particularly in the user interface and user experience aspects.
-Color Palette
-The color palette used in this application includes:
 
-#478ba2: Primary color used for consistent styling across the Faculty Management System.
+## Features
+User Authentication: Secure login/signup using JWT.
+Task Management: CRUD operations for managing tasks.
+Responsive Design: Optimized for both desktop and mobile devices.
+Role-Based Access: Different functionalities for admins and users.
+
+## Demo
+
+![Screenshot 2024-09-02 013617](https://github.com/user-attachments/assets/22a0ad71-f6da-4ec1-ae08-fb1544c0e02d)
+
+![Screenshot 2024-09-02 013906](https://github.com/user-attachments/assets/19ff2ce2-1f4d-45d6-9ed2-ad3bca59591e)
+
+![Screenshot 2024-09-02 014516](https://github.com/user-attachments/assets/c333eb90-aa00-4042-a656-db711ce06b5b)
+
+![Screenshot 2024-09-02 014623](https://github.com/user-attachments/assets/f0ff5391-a33c-4175-9a80-3d7343e64ef0)
+
+
+
+
+
+
+
+
+## Setup and Installation
+To run this application locally, follow these steps:
+
+### Backend Setup
+Clone the repository: https://github.com/naranavee/faculty-managment-main-main.git
+bash
+git clone 
+2. Navigate to the backend directory:
+
+cd canteen-management-system/backend
+
+
+Install the dependencies:
+
+npm install
+
+Set up environment variables:
+Create a .env file in the root of the backend directory and add your environment variables as shown in the .env.example.
+Start the backend server:
+npm run start
+
+
+Frontend Setup
+Navigate to the frontend directory:
+
+cd ../frontend
+
+Install the dependencies:
+
+npm install
+
+Start the frontend server:
+
+npm run start
+
+Open your browser and navigate to: http://localhost:3000
+## Project Structure
+The project follows a modular structure to ensure scalability and maintainability. Key directories include:
+
+/backend: Contains the Node.js backend code.
+/frontend: Contains the React frontend code.
+
+
+
+
+
+
+## Project Dependencies
+1.Backend
+@apollo/client: Apollo Client for managing GraphQL queries and mutations.
+apollo-server: Apollo Server for setting up a GraphQL server.
+bcryptjs: Library for hashing passwords.
+dotenv: Module for loading environment variables.
+graphql: GraphQL schema and query language.
+jsonwebtoken: Library for handling JSON Web Tokens.
+mongoose: MongoDB object modeling tool.
+
+
+2.Frontend
+@apollo/client: Apollo Client for managing GraphQL queries and mutations.
+react-redux and @reduxjs/toolkit: Libraries for managing global state in React.
+react-router-dom: Library for handling routing in React applications.
+jest: Testing library for JavaScript.
+Testing and Quality Assurance
+The project includes comprehensive unit, integration, and end-to-end tests to ensure quality.
+
+## Running Tests
+Navigate to the backend or frontend directory.
+Run the tests using Jest or Mocha:
+
+bash
+Copy code
+npm test
+
+Tools Used
+Jest: For unit testing.
+Mocha and Chai: For backend testing.
+Karma: For end-to-end testing.
+## Deployment
+Deploying to Heroku or AWS
+Create accounts on Heroku or AWS.
+Connect your GitHub repository for deployment.
+Set up the environment variables as needed.
