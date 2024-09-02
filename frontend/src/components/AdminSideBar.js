@@ -5,7 +5,7 @@ const AdminSideBar = () => {
   return (
     <div className="h-screen w-[300px] bg-orange-400 p-4 flex flex-col ">
       <div className="text-[30px] place-self-center mt-10 font-bold font-serif">
-        FacultyTrack
+        Admin Track
       </div>
 
       <div className="flex flex-col justify-center items-start ml-3 gap-[80px] mt-[100px] text-[20px] font-serif font-semibold">
